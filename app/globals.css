@@ -2,26 +2,1221 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+/*-----------------------------------*\
+  #CUSTOM PROPERTY
+\*-----------------------------------*/
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+  /* Colors */
+  --background: hsla(220, 17%, 7%, 1);
+  --banner-background: hsla(250, 6%, 20%, 1);
+  --white-alpha-20: hsla(0, 0%, 100%, 0.2);
+  --on-background: hsla(220, 100%, 95%, 1);
+  --on-surface: hsla(250, 100%, 95%, 1);
+  --on-surface-variant: hsla(250, 1%, 44%, 1);
+  --primary: hsla(349, 100%, 43%, 1);
+  --primary-variant: hsla(349, 69%, 51%, 1);
+  --rating-color: hsla(44, 100%, 49%, 1);
+  --surface: hsla(250, 13%, 11%, 1);
+  --text-color: hsla(250, 2%, 59%, 1);
+  --white: hsla(0, 0%, 100%, 1);
+
+  /* Gradients */
+  --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0.5) 100%;
+  --bottom-overlay: 180deg, hsla(250, 13%, 11%, 0), hsla(250, 13%, 11%, 1);
+
+  /* Typography */
+  --ff-dm-sans: 'DM Sans', sans-serif;
+  --fs-heading: 4rem;
+  --fs-title-lg: 2.6rem;
+  --fs-title: 2rem;
+  --fs-body: 1.8rem;
+  --fs-button: 1.5rem;
+  --fs-label: 1.4rem; 
+  --weight-bold: 700;
+  
+  /* Box Shadow */
+  --shadow-1: 0 1px 4px hsla(0, 0%, 0%, 0.75);
+  --shadow-2: 0 2px 4px hsla(350, 100%, 43%, 0.3);
+  
+  /* Border Radius */
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-24: 24px;
+  --radius-36: 36px;
+
+  /* Transition */
+  --transition-short: 250ms ease;
+  --transition-long: 500ms ease;
+
+  /* header height */
+  --header-height: 80px;
+  @media screen and (min-width: 1200px) {
+    --header-height: 104px;
+  }
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
+
+
+
+
+
+/*-----------------------------------*\
+  #RESET
+\*-----------------------------------*/
+  *, 
+  ::before,
+  ::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  li { list-style: none; }
+
+  input { width: 100%; }
+
+  button { 
+    text-align: left;
+    cursor: pointer
+  }
+
+  span, iframe, button { display: block } 
+
+  input, button { 
+    background: none; 
+    border: none;
+    font: inherit;
+  }
+
+  input, button { color: inherit; }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 10px;
+    font-family: var(--ff-dm-sans);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--on-background);
+    font-family: var(--ff-dm-sans);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+  }
+
+  :focus-visible { outline-color: var(--primary-variant); }
+
+  ::-webkit-scrollbar {
+    width: 8px;   /* sets vertical scrollbar width */
+    height: 8px;  /* sets horizontal scrollbar width */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--banner-background);
+    border-radius: var(--radius-8);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #REUSED STYLE
+\*-----------------------------------*/
+
+.loading-icon {
+  content: "";
+
+  border: 3px solid white;
+  border-radius: var(--radius-24);
+  border-inline-end-color: transparent;
+
+  animation: loading 500ms linear infinite;
+}
+
+@keyframes loading {
+  0%{
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(1turn);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+
+/* a dark bottom overlay */
+.container-layout::after,
+.search-modal::after {
+  /*content*/
+  content: "";
+
+  /*position*/
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+
+  /*size*/
+  width: 100%;
+  height: 150px;
+
+  /*background*/
+  background-image: linear-gradient(var(--bottom-overlay));
+  pointer-events: none;
+}
+
+
+
+/* a loading icon */
+/*
+ * this applies to the search functionality & the load more functionality
+ */
+.search-wrapper::before,
+.load-more::before{
+  @apply loading-icon;
+  display: none;
+  width: 20px;
+  height: 20px;
+}
+
+.search-wrapper::before { 
+  position: absolute;
+  top: 14px;
+  right: 12px;
+}
+
+main::after {
+  content: "";
+  position:fixed;
+  top: 150px;
+  left: 50vw;
+  z-index: 4;
+  
+  display: none;
+
+  width: 50px;
+  height: 50px;
+
+  border: 5px solid white;
+  border-radius: 25px;
+  border-inline-end-color: transparent;
+
+  animation: loading 700ms linear infinite;
+}
+
+.search-wrapper.searching::before,
+.load-more.loading::before { display: block; }
+
+
+
+/* titles & headings */
+.title,
+.title-large,
+.heading {
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.5px;
+}
+
+.title{ font-size: var(--fs-title); } 
+
+.title-large { font-size: var(--fs-title-lg); }
+
+.heading {
+  font-size: var(--fs-heading);
+  line-height: 1.2;
+  color: var(--white);
+}
+
+.title-wrapper {
+  margin-block-end: 24px;
+}
+
+
+
+/* images & videos */
+.img-cover{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+/* movie meta list & meta item */
+.meta-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+}
+
+.meta-item{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+
+
+/* buttons-like */
+.btn {
+  /* soecifies default layout, size, border-radius, padding, typography */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: max-content;
+  border-radius: var(--radius-8);
+  padding-block: 12px;
+  padding-inline: 20px 24px;
+
+  font-size: var(--fs-button);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+
+  transition: var(--transition-short)
+}
+
+.card-badge {
+  background-color: var(--banner-background);
+  border-radius: var(--radius-4);
+  padding-inline: 6px;
+  font-size: var(--fs-label);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+}
+
+
+
+/* fallbacks images & videos */
+/*
+ * if the image for an img element OR video for a video element fails to fetch
+ * what is the background image that should show instead?
+ */
+.poster-box {
+  background-image: url("/poster-bg-icon.png");
+  aspect-ratio: 2/3;
+}
+
+.poster-box,
+.video-card {
+  background-position: center;
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-color: var(--banner-background);
+  border-radius: var(--radius-16);
+  overflow: hidden;
+}
+
+.video-card {
+  flex-shrink: 0;
+  width: calc(100% - 40px);
+  max-width: 500px;
+
+  background-image: url("/video-bg-icon.png");
+  aspect-ratio: 16 / 9;
+}
+
+
+/* movie list slides */
+/*
+ * the slides-container specifies the scroll interaction * use padding to add a space before the scroll
+ * the slides-inner container specifies the flex display of the UI
+ */
+.slides-container{
+  overflow-x: overlay;
+  margin-inline: -20px;
+  padding-block-end: 16px;
+  margin-block-end: -16px;
+}
+
+.slides-container::-webkit-scrollbar-thumb {background-color: transparent;}
+.slides-container:is(:hover, :focus-visible)::-webkit-scrollbar-thumb {background-color: var(--banner-background);}
+
+
+.slides-inner-container{
+  position: relative;
+  display: flex;
+  gap: 16px;
+}
+
+.slides-inner-container::before,
+.slides-inner-container::after {
+  content: "";
+  min-width: 12px;
+}
+
+
+
+
+/* others */
+.span { font-size: var(--fs-label); }
+
+.separator {
+  width: 4px;
+  height: 4px;
+
+  border-radius: var(--radius-4);
+  background-color: var(--white-alpha-20);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #HEADER
+\*-----------------------------------*/
+
+/* the header element */
+.header { @apply relative flex items-center gap-2 px-6 py-4 mr-auto; }
+
+
+/* the search button */
+
+.search-btn {
+  background-color: var(--banner-background);
+  border-radius: var(--radius-8);
+  opacity: 0.5;
+  transition: var(--transition-short);
+  @apply p-3;
+}
+
+.search-btn:is(:hover, :focus-visible) { opacity: 1; }
+
+
+
+/* the search-box UI */
+.search-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--background);
+
+  padding-inline: 24px 16px;
+}
+
+
+
+/* the search field which is in the search box */
+.search-wrapper {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-field {
+  height: 48px;
+  outline: none;
+  border-radius: var(--radius-8);
+  background-color: var(--banner-background);
+  padding-inline: 44px 16px;
+  line-height: 48px;
+  transition: var(--transition-short);
+}
+
+.search-field::placeholder { color: var(--on-surface-variant); }
+
+.search-field:hover { box-shadow: 0 0 0 2px var(--on-surface-variant); }
+
+.search-field:focus {
+  box-shadow: 0 0 0 2px var(--on-surface);
+  padding-inline-start: 12px;
+}
+
+.search-wrapper .leading-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 12px;
+  opacity: 0.5;
+  transition: var(--transition-short);
+}
+
+.search-wrapper:focus-within .leading-icon { opacity: 0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #FETCHING ICON
+\*-----------------------------------*/
+
+.fetching { 
+  position: absolute; 
+  width: 100%;
+  height: 100%;
+  background-color: hsla(220, 17%, 7%, 1);
+  /* background-image: linear-gradient(var(--banner-overlay)); */
+  z-index: 4;
+}
+
+.fetching::before {
+  @apply loading-icon;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  border-width: 5px;
+  transform: translateY(50%) translateX(50%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #SIDEBAR
+\*-----------------------------------*/
+
+/*** position, width, visiblity & scroll interaction of the sidebar UI ***/
+.sidebar {
+  /*position*/
+  position: absolute;
+  top: var(--header-height);
+  left: -340px;
+  z-index: 4;
+
+  /*width*/
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  max-width: 340px;
+  overflow-y: overlay;
+
+  /*visibility*/
+  border-block-start: 1px solid var(--banner-background);
+  background-color: var(--background);
+  visibility: hidden;
+
+  transition: var(--transition-long);
+}
+
+.sidebar.active {
+  visibility: visible;
+  transform: translateX(340px);
+}
+
+.sidebar::-webkit-scrollbar-thumb {background-color: transparent}
+
+.sidebar:is(:hover, :focus-visible)::-webkit-scrollbar-thumb {background-color: var(--banner-background)}
+
+.sidebar::-webkit-scrollbar-button {height: 16px}
+
+
+
+/* layout, block padding of the side-bar UI */
+.sidebar-inner {
+  display: grid;
+  gap: 20px;
+  padding-block: 36px;
+}
+
+
+/* the sidebar-list & each link */
+.sidebar-list, .sidebar-footer { padding-inline: 36px; }
+
+.sidebar-link {
+  display: block;
+  color: var(--on-surface-variant);
+  transition: var(--transition-short);
+}
+
+.sidebar-link:is(:hover, :focus){ color: var(--on-background); }
+
+/* the sidebar-footer */
+.sidebar-footer {
+  margin-block-start: 16px;
+  border-block-start: 1px solid var(--banner-background);
+  padding-block-start: 25px;
+}
+
+
+/* the sidebar overlay */
+.overlay {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+
+  opacity: 0.5;
+
+  width: 100%;
+  background-color: var(--background);
+  transition: var(--transition-short);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #SEARCH MODAL
+\*-----------------------------------*/
+/* 
+ * postion the search modal absolutely, on top of every thing else and just below the page header
+ * add scroll visiblity, background color & padding 
+ *  
+ *
+ */
+
+ .search-modal {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+
+  display: block;
+
+  width: 100%;
+  overflow-y: overlay;
+
+  background-color: var(--surface);
+  padding: 50px 24px;
+}
+
+.search-modal .label {
+  margin-block-end: 8px;
+  color: var(--primary-variant);
+  font-weight: var(--weight-bold);
+}
+
+.movie-list { padding-block-start: 32px; }
+
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  column-gap: 16px;
+  row-gap: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #MOVIE CARD
+\*-----------------------------------*/
+
+:is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {width: 100%;}
+
+.movie-card {
+  position: relative;
+  min-width: 200px;
+}
+
+.movie-card .card-banner { width: 100%; }
+
+.movie-card .title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin-block: 8px 4px;
+}
+
+.movie-card .meta-list {justify-content: space-between;}
+
+.movie-card .card-btn {
+  position: absolute;
+  inset: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #HOME PAGE
+\*-----------------------------------*/
+ 
+/*
+ * styling the container of the page-content
+ * position, bg-color & pad the container of the page content.
+ * add a dark bottom overlay to the container
+ */
+.container-layout {
+  position: relative;
+  z-index: 1;
+
+  height: calc(100vh - var(--header-height));
+  overflow-y: overlay;
+
+  background-color:  var(--surface);
+  padding: 24px 20px 48px;
+  color: var(--on-surface);
+}
+
+/*
+ * styling the container of the popular movie banner
+ * position, size(height), border-radius the container of the popular movies banner 
+ */
+.banner {
+  position: relative;
+
+  height: 700px;
+  overflow: hidden;
+
+  border-radius: var(--radius-24);
+}
+
+
+/*
+ * styling each movie slide container
+ * position each movie slide to be 20% out of viewport left handside with no opacity & visiblility.
+ * only the active movie slide would be seen at the viewport.
+ * each slide is 100% high & wide of its container (banner), 
+ * image in slide is also 100% high & wide via the "img-cover" reusable class,
+ * each slide have a dark overlay; this gives the image a dark contrast; 
+ * apart from the aesthetics of this technique,
+ * this ensure that no matter the image of the slides, text placed on it will be visible.
+ * 
+ */
+.slides .slide-item {
+  position: absolute;
+  top: 0;
+  left: 120%;
+
+  opacity: 0;
+  visibility: hidden;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--banner-background);
+  transition: opacity var(--transition-long);
+}
+
+.slides .slide-item.active {
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+.slides .slide-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;   /* automatically set width & height to 100% */
+  background-image: linear-gradient(var(--banner-overlay));
+}
+
+
+/*
+ * styling each movie slide textual content;
+ * position the container of the textual content & set the text-color,
+ * webkit clamp the heading & description text to just 3 lines & 2 lines respectively,
+ * flex display the textual content meta-list,
+ * specify a background color for the watch now button.
+ */
+ .banner-content {
+  position: absolute;
+  bottom: 206px;
+  left: 24px;
+  right: 24px;
+  z-index: 1;
+
+  color: var(--text-color)
+}
+
+.banner :is(.heading, .banner-text){
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.banner .heading {
+  margin-block-end: 16px;
+  -webkit-line-clamp: 3;
+}
+
+.banner .genre { margin-block: 12px; }
+
+.banner-text {
+  margin-block-end: 24px;
+  -webkit-line-clamp: 2;
+}
+
+.banner .btn {
+  background-color: var(--primary);
+  position: relative;
+  z-index: 0;
+}
+
+.banner .btn:is(:hover, :focus-visible) {
+  box-shadow: var(--shadow-2);
+}
+
+
+/*
+ * style the slides controller container
+ * this container basically positions the slides controller UI
+ * position it to the bottom of its container
+ * add border-radius & padding
+ * for overflow in the x-direction, add scrollbar only when necessary
+ * prevent the container from being highlighted or selected by user
+ */
+ .slides-controller{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 0;
+  z-index: 1;
+
+  overflow-x: auto;
+
+  border-radius: var(--radius-16) 0 0 var(--radius-16);
+  padding: 4px 0 4px 4px;
+  user-select: none;
+
+}
+
+.slides-controller::-webkit-scrollbar {display: none}
+
+
+/* 
+ * style the slides controller inner container
+ * this basically adds flex layout to the slides controller UI
+ * initially each slide controller will shrink to fit availiable space
+ *
+ * add an after pseudoelement to simulate an additional flex item at the end,
+ * giving it a min-width of 12px. this adds a bit of spacing after all flex item.
+ */
+.slides-controller-inner {
+  display: flex;
+  gap: 12px;
+}
+
+.slides-controller-inner::after {
+  content: "";
+  min-width:12px;
+}
+
+
+/* 
+ * style the each slide controller
+ * set them to 100px width 
+ * remove the automatic shriking imposed on eaach slide controller by the flexbox container
+ * add a border radius to them
+ * all slide controller except the active slide controller will have a lower brightness
+
+ * note that and hidden overflow setting is needed for the border-radius setting to be visible.
+ * because via the "img-cover" class the img element in the button element is 100% wide & high.
+ * thus it is on-top of the button element OR 
+ * you can make the img element have the border-radius setting instead.
+ *
+ */
+.slides-controller .slide-item {
+  flex-shrink: 0;
+  width: 100px;
+  overflow: hidden;  /* this is needed for the border-radius settings to show */
+  border-radius: var(--radius-8);
+  filter: brightness(0.4);
+}
+
+.slides-controller .slide-item.active {
+  filter: brightness(1);
+  box-shadow: var(--shadow-1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #DETAIL PAGE
+\*-----------------------------------*/
+
+/**
+  * MOVIE DETAIL UI
+  */
+/* 
+ * THE BACKDROP IMAGE
+ * underneath the movie detail ui is the backdrop image of the movie
+ * add a dark overlay over the image
+ *
+ */
+.backdrop-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+  width: 100%;
+  height: 600px;
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.backdrop-image::before {
+  content: "";
+  position:absolute;
+  inset: 0;
+  background-image: linear-gradient(0deg, hsla(250, 13%, 11%, 1), hsla(250, 13%, 11%, 0.9));
+}
+
+
+
+/* 
+ * THE POSTER IMAGE
+ * set width to 100%
+ * set max-width to 300px
+ *
+ */
+.movie-detail .movie-poster {
+  width: 100%;
+  max-width: 300px;
+}
+
+
+
+/* 
+ * THE UI TEXT CONTENT
+ * add top & bottom margin to the heading box, genres box, detail list box
+ * change color of meta-list & genres box
+ * add flex display to the detail list item
+ * change color of detail list name & set its minimum width to 112px
+ */
+ .movie-detail .heading { margin-block: 24px 12px; }
+ .movie-detail :is(.meta-list, .genre) { color: var(--text-color); }
+ .movie-detail .genre { margin-block: 12px 16px; }
+ .movie-detail .detail-list { margin-block: 24px 32px; }
+ .movie-detail .list-item {
+    display: flex;
+    gap: 8px;
+    margin-block-end: 12px;
+ }
+ .movie-detail .list-name {
+    color: var(--text-color);
+    min-width: 112px;
+ }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /*-----------------------------------*\
+   #MOVIE LIST PAGE
+ \*-----------------------------------*/
+ 
+ /**
+   * MOVIE LIST UI
+   */
+ /* 
+  * THE TITLE
+  * add a bottom margin to the title
+  * add grid display to the movie list, with a row & column gap, and auto filling the columns,
+  *
+  */
+ .genre-list .title-wrapper { margin-block-end: 56px; }
+ 
+ /* .grid-list {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   column-gap: 16px;
+   row-gap: 20px;
+ } */
+ 
+ :is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {width: 100%;}
+ 
+ 
+ /* 
+  * THE LOAD MORE BUTTON
+  * add a left & right margin to center the button
+  * add a top & button margin
+  * add a background color
+  * add a background color on hover or focus
+  *
+  */
+  .load-more {
+     margin-inline: auto;
+     margin-block: 36px 60px;
+     background-color: var(--primary-variant);
+  }
+ 
+  .load-more:is(:hover, :focus-visible) { --primary-variant: hsla(349, 69%, 39%, 1); }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #MEDIA QUERIES
+\*-----------------------------------*/
+
+/**
+ * RESPONSIVENESS FOR LARGER THAN 575PX
+ * 1. setting maximum width for text content (banner-content & detail-content)
+ * 2. shift movie banner slides controller left side
+ */
+ @media screen and (min-width: 575px) {
+  /* HOME PAGE */
+  .banner-content{
+    right: auto;
+    max-width: 500px; 
+  }
+
+  .slides-controller {
+    left: calc(100% - 400px);
+  }
+
+
+  /* DETAIL PAGE */
+  .detail-content {
+    max-width: 750px;
+  }
+}
+
+
+
+/**
+* RESPONSIVENESS FOR LARGER THAN 768PX
+*
+* VARIABLES
+* 1. restyle the banner overlay
+* 2. reset heading text font-size
+*
+* HOMEPAGE
+* 1. hide all search-btn
+* 2. reset search box styling & set width
+* 3. reset inline padding for the container 
+* 4. reset inline padding of sidebar list
+* 5. reset movie banner height
+* 6. center movie banner content
+*
+* DETAIL PAGE
+* 1. set movie detail to be a flex box
+* 2. stick the movie detail poster
+* 2. set a border radius on the movie detail slider container
+*/
+@media screen and (min-width: 768px) {
+
+  /* VARIABLES */
+  :root {
+    --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0) 100%;
+    --fs-heading: 5.4rem;
+  }
+
+
+  /* HOME PAGE */
+  .search-btn { display: none; }
+
+  .search-box {
+    all: unset;
+    display: block;
+    width: 340px;
+  }
+
+  .container { padding-inline: 24px;}
+
+  .banner { height: 500px; }
+
+  .banner-content {
+    bottom: 50%;
+    transform: translateY(50%);
+    left: 50px;
+  }
+
+
+  /* DETAIL PAGE */
+  .movie-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .movie-detail .detail-box {flex-grow: 1;}
+
+  .movie-detail .movie-poster {
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+  }
+
+  .movie-detail .slides-container{
+    margin-inline-start: 0;
+    border-radius: var(--radius-16) 0 0 var(--radius-16);
+  }
+
+  .movie-detail .slides-inner-container::before{ display: none;}
+}
+
+
+
+/**
+* RESPONSIVENESS FOR LARGER THAN 1200PX
+*
+* 1. set more padding for the header
+* 2. resize logo image
+* 3. hide menu-btn & sidebar overlay
+* 4. set main element to have a grid display
+* 5. set sidebar to be visible
+*/
+
+@media screen and (min-width: 1200px) {
+.header { padding: 28px 56px;}
+
+.logo img { width: 106px }
+
+.menu-btn,
+.overlay { display: none; }
+
+main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+
+.sidebar {
+  position: static;
+  visibility: visible;
+  border-block-start: 0;
+}
+.sidebar.active { transform: none; }
+
+.container, 
+.backdrop-image { border-top-left-radius: var(--radius-36);}
+
+.banner-content { left: 100px };
+
 }
