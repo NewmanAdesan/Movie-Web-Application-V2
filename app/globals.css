@@ -30,12 +30,12 @@
 
   /* Typography */
   --ff-dm-sans: 'DM Sans', sans-serif;
-  --fs-heading: 4rem;
-  --fs-title-lg: 2.6rem;
-  --fs-title: 2rem;
-  --fs-body: 1.8rem;
-  --fs-button: 1.5rem;
-  --fs-label: 1.4rem; 
+  --fs-heading: 40px;
+  --fs-title-lg: 26px;
+  --fs-title: 20px;
+  --fs-body: 18px;
+  --fs-button: 15px;
+  --fs-label: 14px; 
   --weight-bold: 700;
   
   /* Box Shadow */
@@ -55,10 +55,14 @@
 
   /* header height */
   --header-height: 80px;
-  @media screen and (min-width: 1200px) {
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0) 100%;
+    --fs-heading: 54px;
     --header-height: 104px;
   }
-
 }
 
 
@@ -99,7 +103,7 @@
 
   html {
     scroll-behavior: smooth;
-    font-size: 10px;
+    font-size: 16px;
     font-family: var(--ff-dm-sans);
   }
 
@@ -379,6 +383,10 @@ main::after {
 
 }
 
+@layer base {
+  .all-unset { all: unset; }
+}
+
 
 
 
@@ -404,76 +412,30 @@ main::after {
 \*-----------------------------------*/
 
 /* the header element */
-.header { @apply relative flex items-center gap-2 px-6 py-4 mr-auto; }
+.header { @apply relative flex items-center gap-2 px-6 py-4 md:px-14 md:py-7; }
 
 
 /* the search button */
-
 .search-btn {
-  background-color: var(--banner-background);
-  border-radius: var(--radius-8);
-  opacity: 0.5;
   transition: var(--transition-short);
-  @apply p-3;
+  @apply p-3 bg-banner-background opacity-50 rounded-8 hover:opacity-100 focus-visible:opacity-100 md:hidden;
 }
-
-.search-btn:is(:hover, :focus-visible) { opacity: 1; }
-
-
 
 /* the search-box UI */
-.search-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+.search-box { @apply absolute top-0 left-0 z-[1] flex items-center gap-3 w-full h-full bg-background pl-6 pr-4 md:all-unset md:block md:w-[340px]; }
 
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* the search wrapper */
+.search-wrapper { @apply relative flex-grow; }
 
-  width: 100%;
-  height: 100%;
+/* the search field in the search wrapper */
+.search-field { 
+  @apply h-12 outline-none rounded-8 bg-banner-background pl-11 pr-4 leading-[48px] focus:ring-2 focus:ring-on-surface focus:pl-2 hover:ring-2 hover:ring-on-surface-variant placeholder-on-surface-variant;
+  transition: var(--transition-short); 
+ }
 
-  background-color: var(--background);
-
-  padding-inline: 24px 16px;
-}
-
-
-
-/* the search field which is in the search box */
-.search-wrapper {
-  position: relative;
-  flex-grow: 1;
-}
-
-.search-field {
-  height: 48px;
-  outline: none;
-  border-radius: var(--radius-8);
-  background-color: var(--banner-background);
-  padding-inline: 44px 16px;
-  line-height: 48px;
-  transition: var(--transition-short);
-}
-
-.search-field::placeholder { color: var(--on-surface-variant); }
-
-.search-field:hover { box-shadow: 0 0 0 2px var(--on-surface-variant); }
-
-.search-field:focus {
-  box-shadow: 0 0 0 2px var(--on-surface);
-  padding-inline-start: 12px;
-}
-
-.search-wrapper .leading-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 12px;
-  opacity: 0.5;
-  transition: var(--transition-short);
+.search-wrapper .leading-icon { 
+  @apply absolute top-1/2 transform -translate-y-1/2 left-3 opacity-50;
+  transition: var(--transition-short); 
 }
 
 .search-wrapper:focus-within .leading-icon { opacity: 0; }
@@ -507,19 +469,12 @@ main::after {
   width: 100%;
   height: 100%;
   background-color: hsla(220, 17%, 7%, 1);
-  /* background-image: linear-gradient(var(--banner-overlay)); */
   z-index: 4;
+  @apply absolute w-full h-full bg-background z-[4];
 }
 
 .fetching::before {
-  @apply loading-icon;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50px;
-  height: 50px;
-  border-width: 5px;
-  transform: translateY(50%) translateX(50%);
+  @apply loading-icon absolute top-1/2 left-1/2 w-12 h-12 border-[5px] transform translate-y-1/2 translate-x-1/2;
 }
 
 
@@ -544,30 +499,12 @@ main::after {
 
 /*** position, width, visiblity & scroll interaction of the sidebar UI ***/
 .sidebar {
-  /*position*/
-  position: absolute;
-  top: var(--header-height);
-  left: -340px;
-  z-index: 4;
-
-  /*width*/
-  width: 100%;
-  height: calc(100vh - var(--header-height));
-  max-width: 340px;
+  @apply hidden absolute top-header-height -left-[340px] z-[4] w-full max-w-[340px] h-main-height border-t-2 border-banner-background bg-background;
   overflow-y: overlay;
-
-  /*visibility*/
-  border-block-start: 1px solid var(--banner-background);
-  background-color: var(--background);
-  visibility: hidden;
-
   transition: var(--transition-long);
 }
 
-.sidebar.active {
-  visibility: visible;
-  transform: translateX(340px);
-}
+.sidebar.active { @apply block transform translate-x-[340px] }
 
 .sidebar::-webkit-scrollbar-thumb {background-color: transparent}
 
@@ -579,43 +516,25 @@ main::after {
 
 /* layout, block padding of the side-bar UI */
 .sidebar-inner {
-  display: grid;
-  gap: 20px;
-  padding-block: 36px;
+  @apply grid gap-5 pt-8 pb-8;
 }
-
 
 /* the sidebar-list & each link */
 .sidebar-list, .sidebar-footer { padding-inline: 36px; }
 
 .sidebar-link {
-  display: block;
-  color: var(--on-surface-variant);
+  @apply block text-on-surface-variant hover:text-on-background focus:text-on-background; 
   transition: var(--transition-short);
 }
 
-.sidebar-link:is(:hover, :focus){ color: var(--on-background); }
-
 /* the sidebar-footer */
 .sidebar-footer {
-  margin-block-start: 16px;
-  border-block-start: 1px solid var(--banner-background);
-  padding-block-start: 25px;
+  @apply mt-4 border-t-2 border-banner-background pt-[25px];
 }
-
 
 /* the sidebar overlay */
 .overlay {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  bottom: 0;
-  z-index: 3;
-
-  opacity: 0.5;
-
-  width: 100%;
-  background-color: var(--background);
+  @apply fixed top-header-height left-0 bottom-0 z-[3] opacity-50 w-full bg-background;
   transition: var(--transition-short);
 }
 
@@ -642,37 +561,16 @@ main::after {
  *  
  *
  */
-
- .search-modal {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  bottom: 0;
-  z-index: 4;
-
-  display: block;
-
-  width: 100%;
+.search-modal {
+  @apply fixed top-header-height left-0 bottom-0 z-[4] w-full bg-surface py-12 px-6;
   overflow-y: overlay;
-
-  background-color: var(--surface);
-  padding: 50px 24px;
 }
 
-.search-modal .label {
-  margin-block-end: 8px;
-  color: var(--primary-variant);
-  font-weight: var(--weight-bold);
-}
+.search-modal .label { @apply mb-2 text-primary-variant font-bold; }
 
-.movie-list { padding-block-start: 32px; }
+.movie-list { @apply pt-8; }
 
-.grid-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  column-gap: 16px;
-  row-gap: 20px;
-}
+.grid-list { @apply grid grid-cols-autofill-200 gap-x-4 gap-y-5; }
 
 
 
@@ -694,26 +592,15 @@ main::after {
 
 :is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {width: 100%;}
 
-.movie-card {
-  position: relative;
-  min-width: 200px;
-}
+.movie-card { @apply relative min-w-[200px]; }
 
 .movie-card .card-banner { width: 100%; }
 
-.movie-card .title {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  margin-block: 8px 4px;
-}
+.movie-card .title { @apply whitespace-nowrap text-ellipsis overflow-hidden mt-2 mb-1;}
 
 .movie-card .meta-list {justify-content: space-between;}
 
-.movie-card .card-btn {
-  position: absolute;
-  inset: 0;
-}
+.movie-card .card-btn { @apply absolute inset-0; }
 
 
 
@@ -739,29 +626,16 @@ main::after {
  * add a dark bottom overlay to the container
  */
 .container-layout {
-  position: relative;
-  z-index: 1;
-
-  height: calc(100vh - var(--header-height));
+  @apply relative z-[1] h-main-height bg-surface text-on-surface pt-6 px-5 pb-12 md:px-6;
   overflow-y: overlay;
-
-  background-color:  var(--surface);
-  padding: 24px 20px 48px;
-  color: var(--on-surface);
 }
+
 
 /*
  * styling the container of the popular movie banner
  * position, size(height), border-radius the container of the popular movies banner 
  */
-.banner {
-  position: relative;
-
-  height: 700px;
-  overflow: hidden;
-
-  border-radius: var(--radius-24);
-}
+.banner { @apply relative h-[700px] overflow-hidden rounded-24 md:h-[500px]; }
 
 
 /*
@@ -775,31 +649,16 @@ main::after {
  * this ensure that no matter the image of the slides, text placed on it will be visible.
  * 
  */
-.slides .slide-item {
-  position: absolute;
-  top: 0;
-  left: 120%;
-
-  opacity: 0;
-  visibility: hidden;
-
-  width: 100%;
-  height: 100%;
-
-  background-color: var(--banner-background);
+.slides .slide-item { 
+  @apply hidden absolute top-0 left-[120%] opacity-0 w-full h-full bg-banner-background;
   transition: opacity var(--transition-long);
 }
 
-.slides .slide-item.active {
-  left: 0;
-  opacity: 1;
-  visibility: visible;
-}
+.slides .slide-item.active { @apply left-0 opacity-100 block ; }
 
 .slides .slide-item::before {
+  @apply absolute inset-0;
   content: "";
-  position: absolute;
-  inset: 0;   /* automatically set width & height to 100% */
   background-image: linear-gradient(var(--banner-overlay));
 }
 
@@ -811,43 +670,15 @@ main::after {
  * flex display the textual content meta-list,
  * specify a background color for the watch now button.
  */
- .banner-content {
-  position: absolute;
-  bottom: 206px;
-  left: 24px;
-  right: 24px;
-  z-index: 1;
+.banner-content { @apply absolute bottom-[206px] left-6 right-6 z-[1] text-text-color tablet:right-auto tablet:max-w-[500px] md:bottom-1/2 md:transform md:translate-y-1/2 md:left-[50px]; }
 
-  color: var(--text-color)
-}
+.banner .heading { @apply line-clamp-3 mb-4; }
 
-.banner :is(.heading, .banner-text){
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-}
+.banner .genre { @apply my-3; }
 
-.banner .heading {
-  margin-block-end: 16px;
-  -webkit-line-clamp: 3;
-}
+.banner-text { @apply line-clamp-2 mb-6; }
 
-.banner .genre { margin-block: 12px; }
-
-.banner-text {
-  margin-block-end: 24px;
-  -webkit-line-clamp: 2;
-}
-
-.banner .btn {
-  background-color: var(--primary);
-  position: relative;
-  z-index: 0;
-}
-
-.banner .btn:is(:hover, :focus-visible) {
-  box-shadow: var(--shadow-2);
-}
+.banner .btn { @apply bg-primary relative z-0 hover:shadow-2 focus:shadow-2; }
 
 
 /*
@@ -858,20 +689,7 @@ main::after {
  * for overflow in the x-direction, add scrollbar only when necessary
  * prevent the container from being highlighted or selected by user
  */
- .slides-controller{
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 0;
-  z-index: 1;
-
-  overflow-x: auto;
-
-  border-radius: var(--radius-16) 0 0 var(--radius-16);
-  padding: 4px 0 4px 4px;
-  user-select: none;
-
-}
+ .slides-controller{ @apply absolute bottom-5 left-5 right-0 z-[1] overflow-x-auto rounded-l-16 py-1 pl-1 select-none tablet:left-400px-to-left; }
 
 .slides-controller::-webkit-scrollbar {display: none}
 
@@ -884,10 +702,7 @@ main::after {
  * add an after pseudoelement to simulate an additional flex item at the end,
  * giving it a min-width of 12px. this adds a bit of spacing after all flex item.
  */
-.slides-controller-inner {
-  display: flex;
-  gap: 12px;
-}
+.slides-controller-inner { @apply flex gap-3; }
 
 .slides-controller-inner::after {
   content: "";
@@ -908,18 +723,9 @@ main::after {
  * you can make the img element have the border-radius setting instead.
  *
  */
-.slides-controller .slide-item {
-  flex-shrink: 0;
-  width: 100px;
-  overflow: hidden;  /* this is needed for the border-radius settings to show */
-  border-radius: var(--radius-8);
-  filter: brightness(0.4);
-}
+.slides-controller .slide-item { @apply flex-shrink-0 w-[100px] overflow-hidden rounded-8 filter contrast-50; }
 
-.slides-controller .slide-item.active {
-  filter: brightness(1);
-  box-shadow: var(--shadow-1);
-}
+.slides-controller .slide-item.active { @apply filter contrast-100 shadow-1; }
 
 
 
@@ -946,27 +752,13 @@ main::after {
  * add a dark overlay over the image
  *
  */
-.backdrop-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-
-  width: 100%;
-  height: 600px;
-
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+.backdrop-image { @apply absolute top-0 left-0 -z-[1] w-full h-[600px] bg-center bg-cover bg-no-repeat; }
 
 .backdrop-image::before {
+  @apply absolute inset-0;
   content: "";
-  position:absolute;
-  inset: 0;
   background-image: linear-gradient(0deg, hsla(250, 13%, 11%, 1), hsla(250, 13%, 11%, 0.9));
 }
-
 
 
 /* 
@@ -975,11 +767,13 @@ main::after {
  * set max-width to 300px
  *
  */
-.movie-detail .movie-poster {
-  width: 100%;
-  max-width: 300px;
-}
+.movie-detail { @apply md:flex md:items-start md:gap-10}
 
+.movie-detail .movie-poster { @apply w-full max-w-[300px] md:sticky md:top-0 md:shrink-0; }
+
+.movie-detail .detail-box { @apply md:grow; }
+
+.movie-detail .detail-content { @apply tablet:max-w-[750px]; }
 
 
 /* 
@@ -993,15 +787,13 @@ main::after {
  .movie-detail :is(.meta-list, .genre) { color: var(--text-color); }
  .movie-detail .genre { margin-block: 12px 16px; }
  .movie-detail .detail-list { margin-block: 24px 32px; }
- .movie-detail .list-item {
-    display: flex;
-    gap: 8px;
-    margin-block-end: 12px;
- }
- .movie-detail .list-name {
-    color: var(--text-color);
-    min-width: 112px;
- }
+ .movie-detail .list-item { @apply flex gap-2 mb-3; }
+ .movie-detail .list-name { @apply text-text-color min-w-[112px] }
+
+
+ .movie-detail .slides-container { @apply md:ml-0 md:rounded-l-16 }
+
+ .movie-detail .slides-inner-container::before{ @apply md:hidden }
  
 
 
@@ -1051,13 +843,8 @@ main::after {
   * add a background color on hover or focus
   *
   */
-  .load-more {
-     margin-inline: auto;
-     margin-block: 36px 60px;
-     background-color: var(--primary-variant);
-  }
- 
-  .load-more:is(:hover, :focus-visible) { --primary-variant: hsla(349, 69%, 39%, 1); }
+  .load-more { @apply mx-auto mt-9 mb-[60px] bg-primary-variant hover:bg-primary-variant-2 focus-visible:bg-primary-variant-2; }
+
  
 
 
@@ -1090,23 +877,6 @@ main::after {
  * 1. setting maximum width for text content (banner-content & detail-content)
  * 2. shift movie banner slides controller left side
  */
- @media screen and (min-width: 575px) {
-  /* HOME PAGE */
-  .banner-content{
-    right: auto;
-    max-width: 500px; 
-  }
-
-  .slides-controller {
-    left: calc(100% - 400px);
-  }
-
-
-  /* DETAIL PAGE */
-  .detail-content {
-    max-width: 750px;
-  }
-}
 
 
 
@@ -1133,22 +903,20 @@ main::after {
 @media screen and (min-width: 768px) {
 
   /* VARIABLES */
-  :root {
+  /* :root {
     --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0) 100%;
-    --fs-heading: 5.4rem;
-  }
+    --fs-heading: 54px;
+  } */
 
 
   /* HOME PAGE */
-  .search-btn { display: none; }
-
-  .search-box {
+  /* .search-box {
     all: unset;
     display: block;
     width: 340px;
-  }
+  } */
 
-  .container { padding-inline: 24px;}
+  /* .container { padding-inline: 24px;}
 
   .banner { height: 500px; }
 
@@ -1156,11 +924,11 @@ main::after {
     bottom: 50%;
     transform: translateY(50%);
     left: 50px;
-  }
+  } */
 
 
   /* DETAIL PAGE */
-  .movie-detail {
+  /* .movie-detail {
     display: flex;
     align-items: flex-start;
     gap: 40px;
@@ -1180,7 +948,8 @@ main::after {
   }
 
   .movie-detail .slides-inner-container::before{ display: none;}
-}
+  */
+} 
 
 
 
@@ -1195,7 +964,7 @@ main::after {
 */
 
 @media screen and (min-width: 1200px) {
-.header { padding: 28px 56px;}
+
 
 .logo img { width: 106px }
 

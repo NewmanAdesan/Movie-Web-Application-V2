@@ -32,9 +32,11 @@ const MovieList = ({urlParam, categoryName, setFetching}:{urlParam:string|null, 
         console.log("There was an error when using TMDB DISCOVER MOVIE REQUEST");
       }
     }
-
     fetchMovieList();
     document.title = `${categoryName} Movies - Tvflix`;
+    return ()=>{
+      document.title = "TvFlix"
+    };
   }, [urlParam])
 
 

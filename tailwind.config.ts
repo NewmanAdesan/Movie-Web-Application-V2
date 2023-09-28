@@ -12,17 +12,20 @@ const config: Config = {
         background: 'hsla(220, 17%, 7%, 1)',
         'banner-background': 'hsla(250, 6%, 20%, 1)',
       },
-      textColor: {
+      colors: {
         'white-alpha-20': 'hsla(0, 0%, 100%, 0.2)',
         'on-background': 'hsla(220, 100%, 95%, 1)',
         'on-surface': 'hsla(250, 100%, 95%, 1)',
         'on-surface-variant': 'hsla(250, 1%, 44%, 1)',
         primary: 'hsla(349, 100%, 43%, 1)',
         'primary-variant': 'hsla(349, 69%, 51%, 1)',
+        "primary-variant-2": 'hsl(349, 69%, 39%)',
         'rating-color': 'hsla(44, 100%, 49%, 1)',
         surface: 'hsla(250, 13%, 11%, 1)',
         'text-color': 'hsla(250, 2%, 59%, 1)',
         white: 'hsla(0, 0%, 100%, 1)',
+        background: 'hsla(220, 17%, 7%, 1)',
+        'banner-background': 'hsla(250, 6%, 20%, 1)',
       },
       gradientColorStops: {
         'banner-overlay': 'hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0.5) 100%',
@@ -42,6 +45,17 @@ const config: Config = {
       fontWeight: {
         "bold": "700",
       },
+      gridTemplateColumns: {
+          // grid auto-fill technique
+          "autofill-200": "repeat(auto-fill, minmax(200px, 1fr))"
+      },
+      height: {
+        "main-height": "calc(100vh - var(--header-height))"
+      },
+      spacing: {
+        "header-height": "var(--header-height)",
+        "400px-to-left": "calc(100% - 400px)",
+      },
       boxShadow: {
         1: '0 1px 4px hsla(0, 0%, 0%, 0.75)',
         2: '0 2px 4px hsla(350, 100%, 43%, 0.3)',
@@ -57,9 +71,14 @@ const config: Config = {
         short: '250ms',
         long: '500ms',
       },
+      screens: {
+        "tablet": "575px"
+      }
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }
 export default config;

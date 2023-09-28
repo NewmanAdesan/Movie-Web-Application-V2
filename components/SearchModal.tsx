@@ -96,15 +96,12 @@ const SearchModal = () => {
 
   if (searchText) {
     return ( 
-
-      {searchText && (
-        
         <div className="search-modal">
           {/* loading icon */}
           {searching && <div className="fetching"></div>}
           {movieList?.length !== 0 ? (
           <>
-            <p className="label">Result For</p>
+            <p className="label ">Result For</p>
             <h1 className="heading">{searchText}</h1>
             <div className="movie-list grid-list">
                 { movieList &&
@@ -123,9 +120,7 @@ const SearchModal = () => {
               <p className="label mx-auto w-max">No Results</p>
             </>
           )}
-      </div>}
-
-      )
+      </div>
       
     )
   } else {

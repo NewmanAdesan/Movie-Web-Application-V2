@@ -22,6 +22,9 @@ const MovieDetail = ({movieID, setFetching}:{movieID:string|null, setFetching: F
             }
         }
         fetchMovie();
+        return ()=>{
+          document.title = "TvFlix"
+        };
     }, [movieID])
 
 /**

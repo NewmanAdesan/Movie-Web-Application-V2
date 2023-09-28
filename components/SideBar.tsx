@@ -47,6 +47,7 @@ const SideBar = () => {
                           query: { urlParam: `with_genres=${genreId}`, categoryName: `${genreName}` },
                         }}
                         className="sidebar-link"
+                        onClick={()=>setSidebarActive(false)}
                       >
                         {genreName}
                       </Link>
@@ -64,6 +65,7 @@ const SideBar = () => {
                       query: { urlParam: "with_original_language=en", categoryName: "English" }
                     }}
                     className="sidebar-link"
+                    onClick={()=>setSidebarActive(false)}
                   >
                     English
                   </Link>
@@ -74,6 +76,7 @@ const SideBar = () => {
                       query: { urlParam: "with_original_language=hi", categoryName: "Hindi" }
                     }}
                     className="sidebar-link"
+                    onClick={()=>setSidebarActive(false)}
                   >
                     Hindi
                   </Link>
@@ -84,6 +87,7 @@ const SideBar = () => {
                       query: { urlParam: "with_original_language=ko", categoryName: "Korean" }
                     }}
                     className="sidebar-link"
+                    onClick={()=>setSidebarActive(false)}
                   >
                     Korean
                   </Link>
