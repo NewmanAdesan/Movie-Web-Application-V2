@@ -8,6 +8,24 @@
 /*-----------------------------------*\
   #CUSTOM PROPERTY
 \*-----------------------------------*/
+
+
+@layer base {
+  .all-unset { all: unset; }
+  .no-content { content: ""; }
+  .loading-icon { @apply no-content border-white border-4 border-solid rounded-24 border-r-transparent animate-loading; }
+  .overflow-x-overlay { overflow-x: overlay; }
+  .overflow-y-overlay { overflow-y: overlay; }
+  .poster-background { background-image: url("/poster-bg-icon.png"); }
+  .video-card-background { background-image: url("/video-bg-icon.png"); }
+  .aspect-2-3 { aspect-ratio: 2 / 3; }
+  .aspect-16-9 { aspect-ratio: 16 / 9; }
+  .no-background-no-border { background: none; border: none;}
+  .font-inherit {font: inherit};
+  .color-inherit {color: inherit};
+}
+
+
 :root {
 
   /* Colors */
@@ -76,30 +94,13 @@
 \*-----------------------------------*/
   *, 
   ::before,
-  ::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  li { list-style: none; }
-
-  input { width: 100%; }
-
-  button { 
-    text-align: left;
-    cursor: pointer
-  }
-
-  span, iframe, button { display: block } 
-
-  input, button { 
-    background: none; 
-    border: none;
-    font: inherit;
-  }
-
-  input, button { color: inherit; }
+  ::after { @apply m-0 p-0 box-border; }
+  li { @apply list-none; }
+  input { @apply w-full; }
+  button { @apply text-left cursor-pointer; }
+  span, iframe, button { @apply block } 
+  input, button { @apply no-background-no-border font-inherit; }
+  input, button { @apply color-inherit }
 
   html {
     scroll-behavior: smooth;
@@ -143,48 +144,11 @@
   #REUSED STYLE
 \*-----------------------------------*/
 
-.loading-icon {
-  content: "";
-
-  border: 3px solid white;
-  border-radius: var(--radius-24);
-  border-inline-end-color: transparent;
-
-  animation: loading 500ms linear infinite;
-}
-
-@keyframes loading {
-  0%{
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(1turn);
-  }
-}
-
 
 /* a dark bottom overlay */
 .container-layout::after,
-.search-modal::after {
-  /*content*/
-  content: "";
-
-  /*position*/
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
-
-  /*size*/
-  width: 100%;
-  height: 150px;
-
-  /*background*/
-  background-image: linear-gradient(var(--bottom-overlay));
-  pointer-events: none;
+.search-modal::after { @apply no-content fixed left-0 bottom-0 z-[1] w-full h-[150px] pointer-events-none bg-gradient-to-b from-surface-transparent to-surface;
 }
-
 
 
 /* a loading icon */
@@ -192,121 +156,33 @@
  * this applies to the search functionality & the load more functionality
  */
 .search-wrapper::before,
-.load-more::before{
-  @apply loading-icon;
-  display: none;
-  width: 20px;
-  height: 20px;
-}
-
-.search-wrapper::before { 
-  position: absolute;
-  top: 14px;
-  right: 12px;
-}
-
-main::after {
-  content: "";
-  position:fixed;
-  top: 150px;
-  left: 50vw;
-  z-index: 4;
-  
-  display: none;
-
-  width: 50px;
-  height: 50px;
-
-  border: 5px solid white;
-  border-radius: 25px;
-  border-inline-end-color: transparent;
-
-  animation: loading 700ms linear infinite;
-}
-
-.search-wrapper.searching::before,
-.load-more.loading::before { display: block; }
-
+.load-more::before{ @apply loading-icon hidden w-5 h-5; }
+.search-wrapper::before { @apply absolute top-[14px] right-3; }
+.search-wrapper.searching::before, .load-more.loading::before { @apply block; }
 
 
 /* titles & headings */
 .title,
 .title-large,
-.heading {
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.5px;
-}
-
-.title{ font-size: var(--fs-title); } 
-
-.title-large { font-size: var(--fs-title-lg); }
-
-.heading {
-  font-size: var(--fs-heading);
-  line-height: 1.2;
-  color: var(--white);
-}
-
-.title-wrapper {
-  margin-block-end: 24px;
-}
-
+.heading { @apply font-bold tracking-[0.5px]; }
+.title{ @apply text-title } 
+.title-large { @apply text-title-lg}
+.heading { @apply text-heading leading-[1.2] text-white;}
+.title-wrapper { @apply mb-6; }
 
 
 /* images & videos */
-.img-cover{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+.img-cover{ @apply object-cover w-full h-full; }
 
 
 /* movie meta list & meta item */
-.meta-list {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-
-}
-
-.meta-item{
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
+.meta-list { @apply flex justify-start items-center flex-wrap gap-3; }
+.meta-item{ @apply flex items-center gap-1; }
 
 
 /* buttons-like */
-.btn {
-  /* soecifies default layout, size, border-radius, padding, typography */
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  max-width: max-content;
-  border-radius: var(--radius-8);
-  padding-block: 12px;
-  padding-inline: 20px 24px;
-
-  font-size: var(--fs-button);
-  font-weight: var(--weight-bold);
-  color: var(--white);
-
-  transition: var(--transition-short)
-}
-
-.card-badge {
-  background-color: var(--banner-background);
-  border-radius: var(--radius-4);
-  padding-inline: 6px;
-  font-size: var(--fs-label);
-  font-weight: var(--weight-bold);
-  color: var(--white);
-}
+.btn { @apply flex items-center gap-3 max-w-max rounded-8 py-3 pl-5 pr-6 text-button font-bold text-white transition duration-short; }
+.card-badge { @apply bg-banner-background rounded-4 px-[6px] text-label text-white; }
 
 
 
@@ -315,29 +191,10 @@ main::after {
  * if the image for an img element OR video for a video element fails to fetch
  * what is the background image that should show instead?
  */
-.poster-box {
-  background-image: url("/poster-bg-icon.png");
-  aspect-ratio: 2/3;
-}
-
+.poster-box { @apply poster-background aspect-2-3; }
 .poster-box,
-.video-card {
-  background-position: center;
-  background-size: 50px;
-  background-repeat: no-repeat;
-  background-color: var(--banner-background);
-  border-radius: var(--radius-16);
-  overflow: hidden;
-}
-
-.video-card {
-  flex-shrink: 0;
-  width: calc(100% - 40px);
-  max-width: 500px;
-
-  background-image: url("/video-bg-icon.png");
-  aspect-ratio: 16 / 9;
-}
+.video-card { @apply bg-center bg-50px bg-no-repeat bg-banner-background rounded-16 overflow-hidden; }
+.video-card { @apply flex-shrink-0 w-full-minus-40px max-w-[500px] video-card-background aspect-16-9; }
 
 
 /* movie list slides */
@@ -345,47 +202,18 @@ main::after {
  * the slides-container specifies the scroll interaction * use padding to add a space before the scroll
  * the slides-inner container specifies the flex display of the UI
  */
-.slides-container{
-  overflow-x: overlay;
-  margin-inline: -20px;
-  padding-block-end: 16px;
-  margin-block-end: -16px;
-}
-
-.slides-container::-webkit-scrollbar-thumb {background-color: transparent;}
-.slides-container:is(:hover, :focus-visible)::-webkit-scrollbar-thumb {background-color: var(--banner-background);}
-
-
-.slides-inner-container{
-  position: relative;
-  display: flex;
-  gap: 16px;
-}
-
+.slides-container{ @apply -mx-5 pb-4 -mb-4 overflow-x-overlay; }
+.slides-container::-webkit-scrollbar-thumb { @apply bg-transparent;}
+.slides-container:is(:hover, :focus-visible)::-webkit-scrollbar-thumb { @apply bg-banner-background;}
+.slides-inner-container{ @apply relative flex gap-4; }
 .slides-inner-container::before,
-.slides-inner-container::after {
-  content: "";
-  min-width: 12px;
-}
-
-
+.slides-inner-container::after { @apply no-content min-w-[12px];}
 
 
 /* others */
-.span { font-size: var(--fs-label); }
-
-.separator {
-  width: 4px;
-  height: 4px;
-
-  border-radius: var(--radius-4);
-  background-color: var(--white-alpha-20);
-
-}
-
-@layer base {
-  .all-unset { all: unset; }
-}
+.span { @apply text-label }
+.separator { @apply w-1 h-1 rounded-4 bg-white-alpha-20; }
+main { @apply desktop:grid desktop:grid-cols-desktop-main; }
 
 
 
@@ -416,10 +244,7 @@ main::after {
 
 
 /* the search button */
-.search-btn {
-  transition: var(--transition-short);
-  @apply p-3 bg-banner-background opacity-50 rounded-8 hover:opacity-100 focus-visible:opacity-100 md:hidden;
-}
+.search-btn { @apply p-3 bg-banner-background opacity-50 rounded-8 hover:opacity-100 focus-visible:opacity-100 md:hidden transition-all duration-short;}
 
 /* the search-box UI */
 .search-box { @apply absolute top-0 left-0 z-[1] flex items-center gap-3 w-full h-full bg-background pl-6 pr-4 md:all-unset md:block md:w-[340px]; }
@@ -428,17 +253,12 @@ main::after {
 .search-wrapper { @apply relative flex-grow; }
 
 /* the search field in the search wrapper */
-.search-field { 
-  @apply h-12 outline-none rounded-8 bg-banner-background pl-11 pr-4 leading-[48px] focus:ring-2 focus:ring-on-surface focus:pl-2 hover:ring-2 hover:ring-on-surface-variant placeholder-on-surface-variant;
-  transition: var(--transition-short); 
- }
+.search-field { @apply h-12 outline-none rounded-8 bg-banner-background pl-11 pr-4 leading-[48px] focus:ring-2 focus:ring-on-surface focus:pl-2 hover:ring-2 hover:ring-on-surface-variant placeholder-on-surface-variant transition-all duration-short; }
+.search-wrapper .leading-icon { @apply absolute top-1/2 transform -translate-y-1/2 left-3 opacity-50 transition-all duration-short; }
+.search-wrapper:focus-within .leading-icon { @apply opacity-0; }
 
-.search-wrapper .leading-icon { 
-  @apply absolute top-1/2 transform -translate-y-1/2 left-3 opacity-50;
-  transition: var(--transition-short); 
-}
-
-.search-wrapper:focus-within .leading-icon { opacity: 0; }
+/* the menu button will be hidden at desktop */
+.menu-btn {@apply desktop:hidden;}
 
 
 
@@ -463,19 +283,8 @@ main::after {
 /*-----------------------------------*\
   #FETCHING ICON
 \*-----------------------------------*/
-
-.fetching { 
-  position: absolute; 
-  width: 100%;
-  height: 100%;
-  background-color: hsla(220, 17%, 7%, 1);
-  z-index: 4;
-  @apply absolute w-full h-full bg-background z-[4];
-}
-
-.fetching::before {
-  @apply loading-icon absolute top-1/2 left-1/2 w-12 h-12 border-[5px] transform translate-y-1/2 translate-x-1/2;
-}
+.fetching { @apply absolute w-full h-full bg-background z-[4]; }
+.fetching::before { @apply loading-icon absolute top-1/2 left-1/2 w-12 h-12 border-[5px] transform translate-y-1/2 translate-x-1/2; }
 
 
 
@@ -498,45 +307,26 @@ main::after {
 \*-----------------------------------*/
 
 /*** position, width, visiblity & scroll interaction of the sidebar UI ***/
-.sidebar {
-  @apply hidden absolute top-header-height -left-[340px] z-[4] w-full max-w-[340px] h-main-height border-t-2 border-banner-background bg-background;
-  overflow-y: overlay;
-  transition: var(--transition-long);
-}
-
-.sidebar.active { @apply block transform translate-x-[340px] }
-
-.sidebar::-webkit-scrollbar-thumb {background-color: transparent}
-
-.sidebar:is(:hover, :focus-visible)::-webkit-scrollbar-thumb {background-color: var(--banner-background)}
-
-.sidebar::-webkit-scrollbar-button {height: 16px}
-
-
+.sidebar { @apply hidden absolute top-header-height -left-[340px] z-[4] w-full max-w-[340px] h-main-height overflow-y-overlay border-t-2 border-banner-background bg-background desktop:static desktop:block desktop:border-t-0 transition-all duration-long; }
+.sidebar.active { @apply block transform translate-x-[340px] desktop:transform-none }
+.sidebar::-webkit-scrollbar-thumb { @apply bg-background; }
+.sidebar:is(:hover, :focus-visible)::-webkit-scrollbar-thumb { @apply bg-banner-background }
+.sidebar::-webkit-scrollbar-button { @apply h-4}
 
 /* layout, block padding of the side-bar UI */
-.sidebar-inner {
-  @apply grid gap-5 pt-8 pb-8;
-}
+.sidebar-inner { @apply grid gap-5 pt-8 pb-8; }
 
 /* the sidebar-list & each link */
-.sidebar-list, .sidebar-footer { padding-inline: 36px; }
+.sidebar-list, .sidebar-footer { @apply px-9; }
 
-.sidebar-link {
-  @apply block text-on-surface-variant hover:text-on-background focus:text-on-background; 
-  transition: var(--transition-short);
-}
+.sidebar-link { @apply block text-on-surface-variant hover:text-on-background focus:text-on-background transition-all duration-short; }
 
 /* the sidebar-footer */
-.sidebar-footer {
-  @apply mt-4 border-t-2 border-banner-background pt-[25px];
+.sidebar-footer { @apply mt-4 border-t-2 border-banner-background pt-[25px];
 }
 
 /* the sidebar overlay */
-.overlay {
-  @apply fixed top-header-height left-0 bottom-0 z-[3] opacity-50 w-full bg-background;
-  transition: var(--transition-short);
-}
+.overlay { @apply fixed top-header-height left-0 bottom-0 z-[3] opacity-50 w-full bg-background transition-all duration-short; }
 
 
 
@@ -561,15 +351,9 @@ main::after {
  *  
  *
  */
-.search-modal {
-  @apply fixed top-header-height left-0 bottom-0 z-[4] w-full bg-surface py-12 px-6;
-  overflow-y: overlay;
-}
-
+.search-modal { @apply fixed top-header-height left-0 bottom-0 z-[4] w-full bg-surface py-12 px-6 overflow-y-overlay; }
 .search-modal .label { @apply mb-2 text-primary-variant font-bold; }
-
 .movie-list { @apply pt-8; }
-
 .grid-list { @apply grid grid-cols-autofill-200 gap-x-4 gap-y-5; }
 
 
@@ -590,16 +374,11 @@ main::after {
   #MOVIE CARD
 \*-----------------------------------*/
 
-:is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {width: 100%;}
-
+:is(.genre-list, .search-modal) :is(.movie-card, .card-banner) { @apply w-full; }
 .movie-card { @apply relative min-w-[200px]; }
-
-.movie-card .card-banner { width: 100%; }
-
+.movie-card .card-banner { @apply w-full; }
 .movie-card .title { @apply whitespace-nowrap text-ellipsis overflow-hidden mt-2 mb-1;}
-
-.movie-card .meta-list {justify-content: space-between;}
-
+.movie-card .meta-list { @apply justify-between; }
 .movie-card .card-btn { @apply absolute inset-0; }
 
 
@@ -625,18 +404,13 @@ main::after {
  * position, bg-color & pad the container of the page content.
  * add a dark bottom overlay to the container
  */
-.container-layout {
-  @apply relative z-[1] h-main-height bg-surface text-on-surface pt-6 px-5 pb-12 md:px-6;
-  overflow-y: overlay;
-}
-
+.container-layout { @apply relative z-[1] h-main-height overflow-y-overlay bg-surface text-on-surface pt-6 px-5 pb-12 md:px-6 desktop:rounded-ss-36; }
 
 /*
  * styling the container of the popular movie banner
  * position, size(height), border-radius the container of the popular movies banner 
  */
 .banner { @apply relative h-[700px] overflow-hidden rounded-24 md:h-[500px]; }
-
 
 /*
  * styling each movie slide container
@@ -649,19 +423,9 @@ main::after {
  * this ensure that no matter the image of the slides, text placed on it will be visible.
  * 
  */
-.slides .slide-item { 
-  @apply hidden absolute top-0 left-[120%] opacity-0 w-full h-full bg-banner-background;
-  transition: opacity var(--transition-long);
-}
-
+.slides .slide-item { @apply hidden absolute top-0 left-[120%] opacity-0 w-full h-full bg-banner-background transition-opacity duration-long; }
 .slides .slide-item.active { @apply left-0 opacity-100 block ; }
-
-.slides .slide-item::before {
-  @apply absolute inset-0;
-  content: "";
-  background-image: linear-gradient(var(--banner-overlay));
-}
-
+.slides .slide-item::before { @apply no-content absolute inset-0 bg-gradient-to-r from-background to-background-half-transparent; }
 
 /*
  * styling each movie slide textual content;
@@ -670,16 +434,11 @@ main::after {
  * flex display the textual content meta-list,
  * specify a background color for the watch now button.
  */
-.banner-content { @apply absolute bottom-[206px] left-6 right-6 z-[1] text-text-color tablet:right-auto tablet:max-w-[500px] md:bottom-1/2 md:transform md:translate-y-1/2 md:left-[50px]; }
-
+.banner-content { @apply absolute bottom-[206px] left-6 right-6 z-[1] text-text-color tablet:right-auto tablet:max-w-[500px] md:bottom-1/2 md:transform md:translate-y-1/2 md:left-[50px] desktop:left-[100px]; }
 .banner .heading { @apply line-clamp-3 mb-4; }
-
 .banner .genre { @apply my-3; }
-
 .banner-text { @apply line-clamp-2 mb-6; }
-
 .banner .btn { @apply bg-primary relative z-0 hover:shadow-2 focus:shadow-2; }
-
 
 /*
  * style the slides controller container
@@ -690,9 +449,7 @@ main::after {
  * prevent the container from being highlighted or selected by user
  */
  .slides-controller{ @apply absolute bottom-5 left-5 right-0 z-[1] overflow-x-auto rounded-l-16 py-1 pl-1 select-none tablet:left-400px-to-left; }
-
-.slides-controller::-webkit-scrollbar {display: none}
-
+.slides-controller::-webkit-scrollbar { @apply hidden}
 
 /* 
  * style the slides controller inner container
@@ -703,12 +460,7 @@ main::after {
  * giving it a min-width of 12px. this adds a bit of spacing after all flex item.
  */
 .slides-controller-inner { @apply flex gap-3; }
-
-.slides-controller-inner::after {
-  content: "";
-  min-width:12px;
-}
-
+.slides-controller-inner::after { @apply no-content min-w-[12px]; }
 
 /* 
  * style the each slide controller
@@ -723,9 +475,8 @@ main::after {
  * you can make the img element have the border-radius setting instead.
  *
  */
-.slides-controller .slide-item { @apply flex-shrink-0 w-[100px] overflow-hidden rounded-8 filter contrast-50; }
-
-.slides-controller .slide-item.active { @apply filter contrast-100 shadow-1; }
+.slides-controller .slide-item { @apply flex-shrink-0 w-[100px] overflow-hidden rounded-8 filter brightness-50; }
+.slides-controller .slide-item.active { @apply filter brightness-100 shadow-1; }
 
 
 
@@ -752,14 +503,8 @@ main::after {
  * add a dark overlay over the image
  *
  */
-.backdrop-image { @apply absolute top-0 left-0 -z-[1] w-full h-[600px] bg-center bg-cover bg-no-repeat; }
-
-.backdrop-image::before {
-  @apply absolute inset-0;
-  content: "";
-  background-image: linear-gradient(0deg, hsla(250, 13%, 11%, 1), hsla(250, 13%, 11%, 0.9));
-}
-
+.backdrop-image { @apply absolute top-0 left-0 -z-[1] w-full h-[600px] bg-center bg-cover bg-no-repeat desktop:rounded-ss-36; }
+.backdrop-image::before { @apply absolute inset-0 bg-gradient-to-t from-surface to-surface-transparent-90-percent; content: ""; }
 
 /* 
  * THE POSTER IMAGE
@@ -768,13 +513,9 @@ main::after {
  *
  */
 .movie-detail { @apply md:flex md:items-start md:gap-10}
-
 .movie-detail .movie-poster { @apply w-full max-w-[300px] md:sticky md:top-0 md:shrink-0; }
-
 .movie-detail .detail-box { @apply md:grow; }
-
 .movie-detail .detail-content { @apply tablet:max-w-[750px]; }
-
 
 /* 
  * THE UI TEXT CONTENT
@@ -783,16 +524,13 @@ main::after {
  * add flex display to the detail list item
  * change color of detail list name & set its minimum width to 112px
  */
- .movie-detail .heading { margin-block: 24px 12px; }
- .movie-detail :is(.meta-list, .genre) { color: var(--text-color); }
- .movie-detail .genre { margin-block: 12px 16px; }
- .movie-detail .detail-list { margin-block: 24px 32px; }
+ .movie-detail .heading { @apply mt-6 mb-3; }
+ .movie-detail :is(.meta-list, .genre) { @apply text-text-color; }
+ .movie-detail .genre { @apply mt-3 mb-4; }
+ .movie-detail .detail-list { @apply mt-6 mb-8; }
  .movie-detail .list-item { @apply flex gap-2 mb-3; }
  .movie-detail .list-name { @apply text-text-color min-w-[112px] }
-
-
  .movie-detail .slides-container { @apply md:ml-0 md:rounded-l-16 }
-
  .movie-detail .slides-inner-container::before{ @apply md:hidden }
  
 
@@ -823,7 +561,7 @@ main::after {
   * add grid display to the movie list, with a row & column gap, and auto filling the columns,
   *
   */
- .genre-list .title-wrapper { margin-block-end: 56px; }
+ .genre-list .title-wrapper { @apply mb-14; }
  
  /* .grid-list {
    display: grid;
@@ -831,9 +569,7 @@ main::after {
    column-gap: 16px;
    row-gap: 20px;
  } */
- 
- :is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {width: 100%;}
- 
+ :is(.genre-list, .search-modal) :is(.movie-card, .card-banner) {@apply w-full}
  
  /* 
   * THE LOAD MORE BUTTON
@@ -872,120 +608,45 @@ main::after {
   #MEDIA QUERIES
 \*-----------------------------------*/
 
-/**
- * RESPONSIVENESS FOR LARGER THAN 575PX
- * 1. setting maximum width for text content (banner-content & detail-content)
- * 2. shift movie banner slides controller left side
- */
+    /**
+    * RESPONSIVENESS FOR LARGER THAN 575PX
+    * 1. setting maximum width for text content (banner-content & detail-content)
+    * 2. shift movie banner slides controller left side
+    */
 
 
 
-/**
-* RESPONSIVENESS FOR LARGER THAN 768PX
-*
-* VARIABLES
-* 1. restyle the banner overlay
-* 2. reset heading text font-size
-*
-* HOMEPAGE
-* 1. hide all search-btn
-* 2. reset search box styling & set width
-* 3. reset inline padding for the container 
-* 4. reset inline padding of sidebar list
-* 5. reset movie banner height
-* 6. center movie banner content
-*
-* DETAIL PAGE
-* 1. set movie detail to be a flex box
-* 2. stick the movie detail poster
-* 2. set a border radius on the movie detail slider container
-*/
-@media screen and (min-width: 768px) {
-
-  /* VARIABLES */
-  /* :root {
-    --banner-overlay: 90deg, hsl(220, 17%, 7%) 0%, hsla(220, 17%, 7%, 0) 100%;
-    --fs-heading: 54px;
-  } */
-
-
-  /* HOME PAGE */
-  /* .search-box {
-    all: unset;
-    display: block;
-    width: 340px;
-  } */
-
-  /* .container { padding-inline: 24px;}
-
-  .banner { height: 500px; }
-
-  .banner-content {
-    bottom: 50%;
-    transform: translateY(50%);
-    left: 50px;
-  } */
-
-
-  /* DETAIL PAGE */
-  /* .movie-detail {
-    display: flex;
-    align-items: flex-start;
-    gap: 40px;
-  }
-
-  .movie-detail .detail-box {flex-grow: 1;}
-
-  .movie-detail .movie-poster {
-    position: sticky;
-    top: 0;
-    flex-shrink: 0;
-  }
-
-  .movie-detail .slides-container{
-    margin-inline-start: 0;
-    border-radius: var(--radius-16) 0 0 var(--radius-16);
-  }
-
-  .movie-detail .slides-inner-container::before{ display: none;}
-  */
-} 
+    /**
+    * RESPONSIVENESS FOR LARGER THAN 768PX
+    *
+    * VARIABLES
+    * 1. restyle the banner overlay
+    * 2. reset heading text font-size
+    *
+    * HOMEPAGE
+    * 1. hide all search-btn
+    * 2. reset search box styling & set width
+    * 3. reset inline padding for the container 
+    * 4. reset inline padding of sidebar list
+    * 5. reset movie banner height
+    * 6. center movie banner content
+    *
+    * DETAIL PAGE
+    * 1. set movie detail to be a flex box
+    * 2. stick the movie detail poster
+    * 2. set a border radius on the movie detail slider container
+    */
 
 
 
-/**
-* RESPONSIVENESS FOR LARGER THAN 1200PX
-*
-* 1. set more padding for the header
-* 2. resize logo image
-* 3. hide menu-btn & sidebar overlay
-* 4. set main element to have a grid display
-* 5. set sidebar to be visible
-*/
 
-@media screen and (min-width: 1200px) {
+    /**
+    * RESPONSIVENESS FOR LARGER THAN 1200PX
+    *
+    * 1. set more padding for the header
+    * 2. resize logo image
+    * 3. hide menu-btn & sidebar overlay
+    * 4. set main element to have a grid display
+    * 5. set sidebar to be visible
+    */
 
-
-.logo img { width: 106px }
-
-.menu-btn,
-.overlay { display: none; }
-
-main {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-}
-
-.sidebar {
-  position: static;
-  visibility: visible;
-  border-block-start: 0;
-}
-.sidebar.active { transform: none; }
-
-.container, 
-.backdrop-image { border-top-left-radius: var(--radius-36);}
-
-.banner-content { left: 100px };
-
-}

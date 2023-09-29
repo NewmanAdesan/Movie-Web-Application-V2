@@ -118,7 +118,7 @@ const SideBar = () => {
               </div>
         </div>
       </nav>
-      {sidebarActive && <div className="overlay" onClick={()=>setSidebarActive(false)}></div>}
+      {sidebarActive && <div className="overlay desktop:hidden" onClick={()=>setSidebarActive(false)}></div>}
     </>
   )
 }

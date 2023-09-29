@@ -22,9 +22,12 @@ const config: Config = {
         "primary-variant-2": 'hsl(349, 69%, 39%)',
         'rating-color': 'hsla(44, 100%, 49%, 1)',
         surface: 'hsla(250, 13%, 11%, 1)',
+        "surface-transparent": 'hsla(250, 13%, 11%, 0)',
+        "surface-transparent-90-percent": 'hsla(250, 13%, 11%, 0.9)',
         'text-color': 'hsla(250, 2%, 59%, 1)',
         white: 'hsla(0, 0%, 100%, 1)',
         background: 'hsla(220, 17%, 7%, 1)',
+        "background-half-transparent": 'hsla(220, 17%, 7%, 0.5)',
         'banner-background': 'hsla(250, 6%, 20%, 1)',
       },
       gradientColorStops: {
@@ -47,7 +50,11 @@ const config: Config = {
       },
       gridTemplateColumns: {
           // grid auto-fill technique
-          "autofill-200": "repeat(auto-fill, minmax(200px, 1fr))"
+          "autofill-200": "repeat(auto-fill, minmax(200px, 1fr))",
+          "desktop-main": "250px 1fr"
+      },
+      width: {
+        "full-minus-40px": "calc(100% - 40px)",
       },
       height: {
         "main-height": "calc(100vh - var(--header-height))"
@@ -67,18 +74,30 @@ const config: Config = {
         24: '24px',
         36: '36px',
       },
+      backgroundSize: {
+       '50px': '50px',
+      },
       transitionDuration: {
         short: '250ms',
         long: '500ms',
       },
+      keyframes: {
+       loading: {
+         '0%': {transform: "rotate(0)"},
+         '100%': {transform: "rotate(1turn)"}
+       }
+      },
+      animation: {
+        loading: "loading 500ms linear infinite",
+      },
       screens: {
-        "tablet": "575px"
+        "tablet": "575px",
+        "desktop": "1200px",
       }
     },
   },
   variants: {},
   plugins: [
-    require('@tailwindcss/line-clamp'),
   ],
 }
 export default config;
