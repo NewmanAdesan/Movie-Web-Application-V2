@@ -38,12 +38,12 @@ const config: Config = {
         'dm-sans': ['DM Sans', 'sans-serif'],
       },
       fontSize: {
-        heading: '4rem',
-        'title-lg': '2.6rem',
-        title: '2rem',
-        body: '1.8rem',
-        button: '1.5rem',
-        label: '1.4rem',
+        heading: '40px',
+        'title-lg': '26px',
+        title: '20px',
+        body: '18px',
+        button: '15px',
+        label: '14px',
       },
       fontWeight: {
         "bold": "700",
