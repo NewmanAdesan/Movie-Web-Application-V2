@@ -170,6 +170,9 @@ const filterVideo = (videoList: Array<MovieVideoInfo>) : Array<MovieVideoInfo> =
 
                       )  
                     }  
+                    {
+                      !movie?.videos?.results && <div className="video-card"></div>
+                    }
                 </div>
             </div>
 

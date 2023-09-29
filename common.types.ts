@@ -49,7 +49,7 @@ export type Movie = {
   popularity?: number,
   video?: boolean,
   vote_count?: string,
-}
+} | null
 
 export type Cast = {
   "adult": boolean,
