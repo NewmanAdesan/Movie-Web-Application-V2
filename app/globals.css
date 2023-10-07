@@ -283,7 +283,7 @@ main { @apply desktop:grid desktop:grid-cols-desktop-main; }
 /*-----------------------------------*\
   #FETCHING ICON
 \*-----------------------------------*/
-.fetching { @apply absolute w-full h-full bg-background z-[4]; }
+.fetching { @apply absolute w-full h-full bg-background-half-transparent z-[4]; }
 .fetching::before { @apply loading-icon absolute top-1/2 left-1/2 w-12 h-12 border-[5px] transform translate-y-1/2 translate-x-1/2; }
 
 
