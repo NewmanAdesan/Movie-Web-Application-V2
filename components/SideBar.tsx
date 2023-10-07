@@ -95,20 +95,29 @@ const SideBar = () => {
 
 
               {/* sidebar-footer */}
-              <div className="sidebar-footer">
-                  <p className="pb-5">
-                      Copyright 2023 
+              <div className="sidebar-footer text-text-color">
+                  <p className="pb-3">
+                      Copyright &copy; 2023 
                       <Link
-                          href="https://youtube.com/@codewithsadee"
-                          className="sidebar-link">
-                        codewithsadee
-                      </Link> 
-                      <Link
-                          href="https://github.com/newmanadesan"
-                          className="sidebar-link">
-                        newmanadesan
+                          href="https://github.com/NewmanAdesan/Movie-Web-Application-V2"
+                          className="sidebar-link inline"
+                          style={{"display": "inline"}}>
+                        {" "} NewmanAdesan
                       </Link>
                   </p>
+                  <p className='pb-3'>
+                      Original work copyright &#169; 2023 
+                      <Link
+                          href="https://youtube.com/@codewithsadee"
+                          className="sidebar-link"
+                          style={{"display": "inline"}}>
+                        {" "} codewithsadee
+                      </Link> 
+                  </p>
+                  <p className='pb-5 text-label'>
+                    My version of the web application was built with React, TypeScript, Tailwind CSS, and Next.js, and additionally implements fetching icon and placeholder functionality.
+                  </p>
+
                   <Image 
                       src="/tmdb-logo.svg" 
                       alt="the movie database logo" 

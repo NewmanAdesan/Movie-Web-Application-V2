@@ -117,7 +117,7 @@ const SearchModal = () => {
           </>
           ) : (
             <>
-              <p className="label mx-auto w-max">No Results</p>
+              <p className="label mx-auto w-max text-primary">No Results</p>
             </>
           )}
       </div>

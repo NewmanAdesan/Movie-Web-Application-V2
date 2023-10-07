@@ -80,17 +80,24 @@ const MovieList = ({urlParam, categoryName, setFetching}:{urlParam:string|null, 
             <div className="title-wrapper">
                 <h2 className="heading">All {categoryName} Movies</h2>
             </div>
-            <div className="grid-list">
-                { movieList &&
-                movieList.map((movie:Movie, index)=>(
-                    <MovieCard 
-                        key={index}
-                        movie={movie}
-                    />
-                ))
-                }
-            </div>
-            <button className={loadMoreClass} onClick={()=>fetchMoreMovie()}>Load More</button>
+            {movieList?.length != 0 ? (
+              <>
+                <div className="grid-list">
+                    { movieList &&
+                    movieList.map((movie:Movie, index)=>(
+                        <MovieCard 
+                            key={index}
+                            movie={movie}
+                        />
+                    ))
+                    }
+                </div>
+              <button className={loadMoreClass} onClick={()=>fetchMoreMovie()}>Load More</button>
+            </>
+
+            ) : (
+              <p className="label mx-auto w-max text-primary">No Results</p>
+            )}
         </section>
     )
 }

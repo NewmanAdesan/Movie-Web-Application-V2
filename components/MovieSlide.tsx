@@ -40,7 +40,7 @@ const MovieSlide = ({title, httpRequest}: {title:string, httpRequest:string}) =>
                   />
               ))
             }
-            { !movieList && <MovieCard movie={null} />}
+            { (!movieList || movieList.length == 0) && <MovieCard movie={null} />}
           </div>
       </div>
     </section>
