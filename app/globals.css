@@ -253,7 +253,7 @@ main { @apply desktop:grid desktop:grid-cols-desktop-main; }
 .search-wrapper { @apply relative flex-grow; }
 
 /* the search field in the search wrapper */
-.search-field { @apply h-12 outline-none rounded-8 bg-banner-background pl-11 pr-4 leading-[48px] focus:ring-2 focus:ring-on-surface focus:pl-2 hover:ring-2 hover:ring-on-surface-variant placeholder-on-surface-variant transition-all duration-short; }
+.search-field { @apply h-12 outline-none rounded-8 bg-banner-background pl-14 pr-4 leading-[48px] focus:ring-2 focus:ring-on-surface focus:pl-2 hover:ring-2 hover:ring-on-surface-variant placeholder-on-surface-variant transition-all duration-short; }
 .search-wrapper .leading-icon { @apply absolute top-1/2 transform -translate-y-1/2 left-3 opacity-50 transition-all duration-short; }
 .search-wrapper:focus-within .leading-icon { @apply opacity-0; }
 

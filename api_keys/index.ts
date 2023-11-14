@@ -30,7 +30,9 @@ export const TMDB_DISCOVER_MOVIE_REQUEST = function(urlParam: string | null, pag
     return `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&include_adult=false&include_video=false&language=en-US&page=${pageNumber}&sort_by=popularity.desc&${urlParam}`
 }
 
-export const GET_IMAGE_URL = function(width:string, path:string){
+export const GET_IMAGE_URL = function(width:string, path:string|undefined){
+    if (!width) width = "w1280";
+    if (!path) return "";
     return `${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${width}${path}`;
 }
 

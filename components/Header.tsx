@@ -33,8 +33,8 @@ const SearchBox = ({searching, setSearching, setSearchBoxActive, setSearchText}:
         <img 
           src="/search.png" 
           alt="search" 
-          width={24} 
-          height={24} 
+          width={22} 
+          height={22} 
           className="leading-icon" 
         />
       </div>

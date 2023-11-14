@@ -38,12 +38,12 @@ const config: Config = {
         'dm-sans': ['DM Sans', 'sans-serif'],
       },
       fontSize: {
-        heading: '40px',
+        'heading': '40px',
         'title-lg': '26px',
-        title: '20px',
-        body: '18px',
-        button: '15px',
-        label: '14px',
+        'title': '20px',
+        'body': '18px',
+        'button': '15px',
+        'label': '14px',
       },
       fontWeight: {
         "bold": "700",
@@ -78,8 +78,8 @@ const config: Config = {
        '50px': '50px',
       },
       transitionDuration: {
-        short: '250ms',
-        long: '500ms',
+        'short': '250ms',
+        'long': '500ms',
       },
       keyframes: {
        loading: {
